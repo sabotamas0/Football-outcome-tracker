@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-16"?>
+<Merkozes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <MerkozesId>be3c93f3-223d-4eea-a2a5-834c01efe7b6</MerkozesId>
+  <Idopont>2022-11-22T13:30:00</Idopont>
+  <Vegeredmeny>3:6</Vegeredmeny>
+  <FelideiEredmeny>2:5</FelideiEredmeny>
+  <JegyzoKonyv>asd</JegyzoKonyv>
+  <HazaiCsapatNev>Juventus</HazaiCsapatNev>
+  <VendegCsapatNev>AC Milan</VendegCsapatNev>
+  <HazaiCsapatId>f0c1e099-8752-484b-a4d5-28a51b839d13</HazaiCsapatId>
+  <VendegCsapatId>7e48ce27-38a5-430d-8d35-e047794eb4a1</VendegCsapatId>
+  <BajnoksagNev>Serie A</BajnoksagNev>
+  <BajnoksagId>c4cbe4ab-a7d1-4674-b3c9-d7f51a0213ff</BajnoksagId>
+</Merkozes>

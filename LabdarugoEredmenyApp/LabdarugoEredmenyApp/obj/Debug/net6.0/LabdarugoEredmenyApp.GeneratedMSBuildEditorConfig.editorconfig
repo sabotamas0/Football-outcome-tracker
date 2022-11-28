@@ -1,0 +1,45 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = LabdarugoEredmenyApp
+build_property.RootNamespace = LabdarugoEredmenyApp
+build_property.ProjectDir = C:\Users\sabotamas0\Desktop\LabdarugoEredmenyApp\LabdarugoEredmenyApp\LabdarugoEredmenyApp\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\sabotamas0\Desktop\LabdarugoEredmenyApp\LabdarugoEredmenyApp\LabdarugoEredmenyApp
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/sabotamas0/Desktop/LabdarugoEredmenyApp/LabdarugoEredmenyApp/LabdarugoEredmenyApp/Views/Bajnoksagok/BajnoksagMeccsekPartialView.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFqbm9rc2Fnb2tcQmFqbm9rc2FnTWVjY3Nla1BhcnRpYWxWaWV3LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sabotamas0/Desktop/LabdarugoEredmenyApp/LabdarugoEredmenyApp/LabdarugoEredmenyApp/Views/Bajnoksagok/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFqbm9rc2Fnb2tcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sabotamas0/Desktop/LabdarugoEredmenyApp/LabdarugoEredmenyApp/LabdarugoEredmenyApp/Views/Bajnoksagok/MeccsDetailsPartialView.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFqbm9rc2Fnb2tcTWVjY3NEZXRhaWxzUGFydGlhbFZpZXcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sabotamas0/Desktop/LabdarugoEredmenyApp/LabdarugoEredmenyApp/LabdarugoEredmenyApp/Views/Bajnoksagok/SortedMatchesByDatePartialView.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFqbm9rc2Fnb2tcU29ydGVkTWF0Y2hlc0J5RGF0ZVBhcnRpYWxWaWV3LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sabotamas0/Desktop/LabdarugoEredmenyApp/LabdarugoEredmenyApp/LabdarugoEredmenyApp/Views/Csapatok/CsapatDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3NhcGF0b2tcQ3NhcGF0RGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sabotamas0/Desktop/LabdarugoEredmenyApp/LabdarugoEredmenyApp/LabdarugoEredmenyApp/Views/Merkozesek/CreateNewMatch.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVya296ZXNla1xDcmVhdGVOZXdNYXRjaC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sabotamas0/Desktop/LabdarugoEredmenyApp/LabdarugoEredmenyApp/LabdarugoEredmenyApp/Views/Merkozesek/MerkozesDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVya296ZXNla1xNZXJrb3plc0RldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 

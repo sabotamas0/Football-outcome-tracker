@@ -1,0 +1,209 @@
+﻿@using LabdarugoEredmenyApp.ViewModels
+@using System.Text;
+@model AddMatchViewModel;
+
+@{
+    var logok = ViewBag.Logok;
+    var today = DateTime.UtcNow.ToLocalTime().ToString();
+    var fewMonths = DateTime.UtcNow.AddMonths(+2).ToLocalTime().ToString();
+    var csapatNevek = ViewBag.CsapatNevek as SelectList;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/css/createNewMatch.css" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+
+    <!-- ✅ SECOND - load jquery validate ✅ -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"
+            integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+
+    <!-- ✅ THIRD - load additional methods ✅ -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"
+            integrity="sha512-XZEy8UQ9rngkxQVugAdOuBRDmJ5N4vCuNXCh8KlniZgDKTvf7zl75QBtaVG1lEhMFe2a2DuA22nZYY+qsI2/xA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        <div class="container">
+            <div class="sidebar">
+
+                <a class="logo-expand" href="@Url.Action("Index", "Bajnoksagok")"><span>&#8656;</span>Föoldal</a>
+
+            </div>
+
+            <div class="wrapper">
+                
+                <div class='@(Html.ViewData.ModelState.IsValid ? "validation-summary-valid" : "validation-summary-errors") panel panel-danger'
+                 data-valmsg-summary="true" id="errors">
+                    <div class="panel-heading">
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            @foreach (var modelError in ViewData.ModelState.Keys.SelectMany(key => this.ViewData.ModelState[key].Errors.Select(x => key + ": " + x.ErrorMessage)))
+                            {
+                                //hackerman
+                                if (modelError != "JegyzoKonyv: The JegyzoKonyv field is required." && modelError != "BajnoksagNev: The BajnoksagNev field is required." &&
+                                modelError != "hazaiVegeredmeny: The hazaiVegeredmeny field is required." &&
+                                modelError != "VendegVegeredmeny: The VendegVegeredmeny field is required." &&
+                                modelError != "HazaiFelideiEredmeny: The HazaiFelideiEredmeny field is required." &&
+                                modelError != "VendegFelideiEredmeny: The VendegFelideiEredmeny field is required.")
+                                {
+                                    <li>@modelError</li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="match-content">
+                    <div class="column">
+                        <div class="team team--home">
+                            <div class="team-logo">
+                                <img id="hazaiLogo" />
+
+                            </div>
+                            <h2 class="team-name">Hazai Csapat neve:</h2>
+
+                            <div class="selectdiv">
+
+                                <label>
+                                    @Html.DropDownListFor(m=>m.HazaiCsapatId,@csapatNevek, new {id="hazaiSelection"})
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="match-details">
+                            <div class="match-date">
+                                <h2 class="team-name">Mérkőzés Időpontja:</h2>
+                                @Html.TextBoxFor(model => model.Időpont,new { @type="datetime-local",step="any",min=@today,max=fewMonths,name="ido"})
+                            </div>
+                            <div class="match-score">
+                                <h2 class="team-name">Félidei Erdedmény:</h2>
+                                <div class="column">
+                                    <div class="match-score">
+                                        <span class="match-score-number--leading">@Html.TextBoxFor(x => x.HazaiFelideiEredmeny,new{@class="wide",name="hazaiFelido"} )</span>
+                                    </div>
+                                    <div class="match-score">
+                                        <span class="match-score-divider">:</span>
+                                    </div>
+                                    <div class="match-score">
+                                        <span class="match-score-number">@Html.TextBoxFor(x => x.VendegFelideiEredmeny ,new{@class="wide",name="vendegFelido"})</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="match-score">
+                                <h2 class="team-name">Végeredmény:</h2>
+                                <div class="column">
+                                    <div class="match-score">
+                                        <span class="match-score-number--leading">@Html.TextBoxFor(x => x.hazaiVegeredmeny,new{@class="wide",name="hazaiVeg"} )</span>
+                                    </div>
+                                    <div class="match-score">
+                                        <span class="match-score-divider">:</span>
+                                    </div>
+                                    <div class="match-score">
+                                        <span class="match-score-number">@Html.TextBoxFor(x => x.VendegVegeredmeny ,new{@class="wide",name="vendegVeg"})</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="match-score">
+                                <h2 class="team-name">Jegyzőkönyv:</h2>
+                                @Html.TextAreaFor(x => x.JegyzoKonyv,new { cols = "55", rows = "10",name="jegyzokonyv" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="team team--away">
+                            <div class="team-logo">
+                                <img id="vendegLogo" />
+                            </div>
+                            <h2 class="team-name">Vendeg Csapat neve:</h2>
+                            <div class="selectdiv">
+                                <label>
+                                    @Html.DropDownListFor(m=>m.VendegCsapatId,@csapatNevek,new{id="vendegSelection"})
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" value="Submit" id="submit">
+            </div>
+        </div>
+    }
+
+</body>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<!-- ✅ SECOND - load jquery validate ✅ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"
+        integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+
+<!-- ✅ THIRD - load additional methods ✅ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"
+        integrity="sha512-XZEy8UQ9rngkxQVugAdOuBRDmJ5N4vCuNXCh8KlniZgDKTvf7zl75QBtaVG1lEhMFe2a2DuA22nZYY+qsI2/xA=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+<script src="https://malsup.github.io/jquery.form.js"></script>
+<script type="text/javascript">
+    
+    $(function () {
+        $("#hazaiSelection").on("change", function () {
+            var Id = $("#hazaiSelection").find(":selected").val();
+            var logok = @Html.Raw(Json.Serialize(ViewBag.Logok));
+            var myobject = $.grep(logok, function (v) {
+                if (v.csapatId == Id) {
+                    return v.logoCsapat;
+                }
+            });
+            let Json = JSON.stringify(myobject);
+            var j = jQuery.parseJSON(Json);
+            var logo = j[0].logoCsapat;
+            $("#hazaiLogo").attr("src", logo);
+            $('option').prop('disabled', false);
+            $('select').each(function () {
+                var val = this.value;
+                $('select').not(this).find('option').filter(function () {
+                    return this.value === val;
+                }).prop('disabled', true);
+            });
+        });
+    });
+
+    $(function () {
+        $("#vendegSelection").on("change", function () {
+            var Id = $("#vendegSelection").find(":selected").val();
+            var logok = @Html.Raw(Json.Serialize(ViewBag.Logok));
+            var myobject = $.grep(logok, function (v) {
+                if (v.csapatId == Id) {
+                    return v.logoCsapat;
+                }
+            });
+            let Json = JSON.stringify(myobject);
+            let j = jQuery.parseJSON(Json);
+            var logo = j[0].logoCsapat;
+            $("#vendegLogo").attr("src", logo);
+            $('option').prop('disabled', false);
+            $('select').each(function () {
+                var val = this.value;
+                $('select').not(this).find('option').filter(function () {
+                    return this.value === val;
+                }).prop('disabled', true);
+            });
+        });
+    });
+
+
+
+</script>
+</html>

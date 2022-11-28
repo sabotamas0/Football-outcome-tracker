@@ -1,0 +1,356 @@
+﻿@using System.Linq;
+@using LabdarugoEredmenyApp.Models
+@{
+    var merkozesek = ViewBag.Merkozesek;
+    var bajnoksagok = ViewBag.Bajnoksagok;
+    var logok = ViewBag.Logok;
+    var idopontok = ViewBag.MerkozesIdopontok as SelectList;
+    var csapatok = ViewBag.Csapatok;
+
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="~/css/bajnoksagok.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/asd.css" asp-append-version="true" />
+
+
+</head>
+<body>
+
+    <div class="container">
+        <div class="sidebar">
+
+            <a class="logo-expand" href="@Url.Action("Index", "Bajnoksagok")">Föoldal</a>
+            <div class="side-wrapper">
+
+                <div class="side-menu">
+
+                    @for (int i = 0; i < bajnoksagok.Count; ++i)
+                    {
+                        <div class="columnCustom">
+                            <div class="match-score">
+                                @{
+                                    var currId = bajnoksagok[i].BajnoksagId;
+                                }
+                                <div class="tooltip">
+                                    @Html.CheckBox(@currId.ToString(),bajnoksagok[i].IsFavourite,htmlAttributes:new{id="bajnoksagButton"})
+
+
+
+                                    @if (!bajnoksagok[i].IsFavourite)
+                                    {
+                                        <span class="tooltiptext">Hozzáadás a kedvencekhez</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="tooltiptext">Eltávolitás a kedvencekből</span>
+                                    }
+                                </div>
+
+                            </div>
+
+                            <div class="match-score">
+                                <span class="match-score-number">
+                                    <a id="match" name="@bajnoksagok[i].BajnoksagId">
+
+                                        <img src="@bajnoksagok[i].LogoBajnoksag" />
+
+
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    }
+
+
+                </div>
+            </div>
+        </div>
+        <div class="wrapper">
+            <div class="header">
+                <div class="search-bar">
+                    @using (Html.BeginForm("CsapatDetails", "Csapatok", FormMethod.Post, htmlAttributes: new { id = "elkuld" }))
+                    {
+                        @Html.TextBox("SSSEEEAAAARRRCCCH","",new { placeholder = "Keress rá egy csapatra"})
+                    }
+
+                </div>
+                <div class="fooldalStepper">
+                    
+                    <div class="stepperInput">
+                        <!-- Minus button -->
+                        <button class="stepper-inputButton" id="vissza"><</button>
+
+                        <!-- Input container -->
+                        <div class="stepper-inputContent">
+
+                            @Html.DropDownList("idopontok",@idopontok,htmlAttributes:new { @class="stepper-input__input",id="idoPontSelection"})
+
+                        </div>
+
+                        <!-- Plus button -->
+                        <button class="stepper-inputButton" id="elore">></button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="addMatch"></div>
+            <div class="Matches"></div>
+            <div class="AllMatches">
+                @foreach (var item in merkozesek)
+                {
+                    
+                    <div class="match-header">
+                        
+                        <div class="match-tournament">@item.BajnoksagNev</div>
+                        
+                    </div>
+                    <div class="tooltip">
+
+                        <img id="XML" name=@item.MerkozesId src="https://cdn-icons-png.flaticon.com/512/154/154838.png" style="max-height:20px;max-width:20px">
+                        <span class="tooltiptext">XML lementés</span>
+
+                    </div>
+                    <a style="text-decoration:none; color:#8A8F98" href="@Url.Action("GetMerkozesById", "Merkozesek", new {merkozesId=@item.MerkozesId })">
+                       
+                        <div class="match-content">
+                            <div class="column">
+                                <div class="team team--home">
+                                    <div class="team-logo">
+                                        @{
+                                            var logoAct = "";
+                                            foreach (var logo in logok)
+                                            {
+                                                if (logo.CsapatNev == item.HazaiCsapatNev)
+                                                {
+                                                    logoAct = logo.LogoCsapat;
+                                                    break;
+                                                }
+                                            }
+                                            <img src="@logoAct" />
+                                        }
+
+                                    </div>
+                                    <h2 class="team-name">@item.HazaiCsapatNev</h2>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="match-details">
+                                    <div class="match-date">
+                                        @item.Idopont.ToShortTimeString()
+                                    </div>
+                                    <div class="match-score">
+                                        @{
+                                            var eredmenyFelbontva = item.Vegeredmeny.Split(":");
+                                        }
+                                        <span class="match-score-number match-score-number--leading">@eredmenyFelbontva[0]</span>
+                                        <span class="match-score-divider">:</span>
+                                        <span class="match-score-number">@eredmenyFelbontva[1]</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column">
+                                
+                                <div class="team team--away">
+                                    <div class="team-logo">
+                                        @{
+                                            var logoActVendeg = "";
+                                            foreach (var logo in logok)
+                                            {
+                                                if (logo.CsapatNev == item.VendegCsapatNev)
+                                                {
+                                                    logoActVendeg = logo.LogoCsapat;
+                                                    break;
+                                                }
+                                            }
+                                            <img src="@logoActVendeg" />
+                                        }
+                                    </div>
+                                    <h2 class="team-name">@item.VendegCsapatNev</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                }
+            </div>
+            <div class="SortedMatches"></div>
+        </div>
+
+
+    </div>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+    <!-- Autocomplete JS -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('[id*=bajnoksagButton]').on('click', function () {
+                $.ajax({
+                    url: '@Url.Action("Index", "Bajnoksagok")',
+                    dataType: "html",
+                    data: { "bajnoksagId": $(this).attr('name') },
+                    type: "GET",
+                    contentType: "application/json",
+                    success: function (response) {
+                        location.reload();
+                    },
+                    error: function (err) {
+                        alert(err.responseText);
+                    }
+                });
+            });
+
+            $('[id*=match]').on('click', function () {
+                var id = $(this).attr('name')
+                $(".addMatch").empty().append('<a href="' + '@Url.Action("CreateNewMatch", "Merkozesek")?bajnoksagId=' + id + '"><button id="' + id + '" class="icon-btn add-btn"><div class="add-icon"></div><div class="btn-txt">Uj Merkozes</div></button></a>');
+
+            });
+
+        });
+        $(function () {
+            $('[id*=matcId]').on('click', function () {
+                $.ajax({
+                    url: '@Url.Action("Index", "Bajnoksagok")',
+                    dataType: "html",
+                    data: { "merkozesId": $(this).attr('name') },
+                    type: "GET",
+                    contentType: "application/json",
+                    success: function (response) {
+                        location.reload();
+                    },
+                    error: function (err) {
+                        alert(err.responseText);
+                    }
+                });
+            });
+        });
+        $(function () {
+            var idopontok = @Html.Raw(Json.Serialize(ViewBag.MerkozesIdopontok));
+            $("#vissza").on("click", function () {
+                $('.AllMatches').hide();
+                var currId = $("#idoPontSelection").find(":selected").text();
+                var index = 0;
+                debugger;
+                idopontok.some(function (entry, i) {
+                    if (entry.text == currId) {
+                        index = i;
+                        return true;
+                    }
+                });
+                if (index !== 0) {
+                    var mytext = idopontok[index - 1].text;
+                    $("#idoPontSelection option").filter(function () {
+                        return $(this).text() == mytext;
+                    }).prop('selected', true);
+                    $.ajax({
+                        url: '@Url.Action("Index", "Bajnoksagok")',
+                        dataType: "html",
+                        data: { "sortString": mytext },
+                        type: "GET",
+                        contentType: "application/json",
+                        success: function (response) {
+                            $('.SortedMatches').html(response);
+                        },
+                        error: function (err) {
+                            alert(err.responseText);
+                        }
+                    });
+                }
+
+            });
+        });
+        $(function () {
+            $('[id*=XML]').on('click', function () {
+                $.ajax({
+                    url: '@Url.Action("SaveToXml", "Merkozesek")',
+                    dataType: "html",
+                    data: { "merkozesId": $(this).attr('name') },
+                    type: "GET",
+                    success: function () {
+                        alert("A mérkőzés el lett mentve a \lementettMerkozesek mappába.");
+                    }
+                    
+                });
+                
+            });
+        });
+        $(function () {
+
+            var idopontok = @Html.Raw(Json.Serialize(ViewBag.MerkozesIdopontok));
+            $("#elore").on("click", function () {
+                $('.AllMatches').hide();
+                var currId = $("#idoPontSelection").find(":selected").text();
+                var index = 0;
+                debugger;
+                idopontok.some(function (entry, i) {
+                    if (entry.text == currId) {
+                        index = i;
+                        return true;
+                    }
+                });
+                if (index !== idopontok.lenght - 1) {
+                    var mytext = idopontok[index + 1].text;
+                    $("#idoPontSelection option").filter(function () {
+                        return $(this).text() == mytext;
+                    }).prop('selected', true);
+                    $.ajax({
+                        url: '@Url.Action("Index", "Bajnoksagok")',
+                        dataType: "html",
+                        data: { "sortString": mytext },
+                        type: "GET",
+                        contentType: "application/json",
+                        success: function (response) {
+                            $('.SortedMatches').html(response);
+                        },
+                        error: function (err) {
+                            alert(err.responseText);
+                        }
+                    });
+                }
+
+            });
+        });
+        $(function () {
+            $("#idoPontSelection").on("change", function () {
+                $('.AllMatches').hide();
+                var currText = $("#idoPontSelection").find(":selected").text();
+                $.ajax({
+                    url: '@Url.Action("Index", "Bajnoksagok")',
+                    dataType: "html",
+                    data: { "sortString": currText },
+                    type: "GET",
+                    contentType: "application/json",
+                    success: function (response) {
+                        $('.SortedMatches').html(response);
+                    },
+                    error: function (err) {
+                        alert(err.responseText);
+                    }
+                });
+            });
+        });
+        $(document).keydown(function (event) {
+            if(event.keyCode == 13) {
+                if ($("#SSSEEEAAAARRRCCCH").val().length == 0) {
+                  event.preventDefault();
+                  return false;
+              }
+            }
+            var csapatok = @Html.Raw(Json.Serialize(ViewBag.Csapatok));
+            $("#SSSEEEAAAARRRCCCH").autocomplete({
+                autoFocus: true,
+                source: csapatok,
+                select: function (event, ui) {
+                    $("#SSSEEEAAAARRRCCCH").val(ui.item.value);
+                    $("#elkuld").submit();
+                }
+                
+            });
+        });
+    </script>
+</body>
+</html>

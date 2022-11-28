@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-16"?>
+<Merkozes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <MerkozesId>f16d7b55-3bc2-4292-b589-93bec54a32e5</MerkozesId>
+  <Idopont>2022-11-23T14:22:38</Idopont>
+  <Vegeredmeny>1:1</Vegeredmeny>
+  <FelideiEredmeny>1:1</FelideiEredmeny>
+  <JegyzoKonyv>asd</JegyzoKonyv>
+  <HazaiCsapatNev>Honved FC</HazaiCsapatNev>
+  <VendegCsapatNev>Ujpest</VendegCsapatNev>
+  <HazaiCsapatId>05b3b065-e3ac-44b3-a5eb-192200327ceb</HazaiCsapatId>
+  <VendegCsapatId>06982830-3471-49a9-88c5-2c0a1ef4db3b</VendegCsapatId>
+  <BajnoksagNev>OTP Bank Liga</BajnoksagNev>
+  <BajnoksagId>8285a389-85ca-42a6-a331-1e8313284f14</BajnoksagId>
+</Merkozes>

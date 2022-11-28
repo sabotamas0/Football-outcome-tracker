@@ -1,0 +1,69 @@
+﻿@using LabdarugoEredmenyApp.Models
+@using System.Text;
+@model List<Merkozes>
+
+@{
+    var logok = ViewBag.Logok;
+}
+
+@foreach (var item in Model)
+{
+        <div class="match-header">
+            <div class="match-tournament">@item.BajnoksagNev</div>
+        </div>
+    <div class="match-content">
+        <div class="column">
+            <div class="team team--home">
+                <div class="team-logo">
+                    @{
+                        var logoAct="";
+                        foreach(var logo in logok)
+                        {
+                            if(logo.CsapatNev==item.HazaiCsapatNev)
+                            {
+                                logoAct = logo.LogoCsapat;
+                                break;
+                            }
+                        }
+                        <img src="@logoAct" />
+                    }
+                         
+                    </div>
+                    <h2 class="team-name">@item.HazaiCsapatNev</h2>
+                </div>
+            </div>
+            <div class="column">
+                <div class="match-details">
+                    <div class="match-date">
+                        @item.Idopont.ToShortTimeString()
+                    </div>
+                    <div class="match-score">
+                        @{var eredmenyFelbontva=item.Vegeredmeny.Split(":");}
+                        <span class="match-score-number match-score-number--leading">@eredmenyFelbontva[0]</span>
+                        <span class="match-score-divider">:</span>
+                        <span class="match-score-number">@eredmenyFelbontva[1]</span>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="team team--away">
+                    <div class="team-logo">
+                     @{
+                        var logoActVendeg="";
+                        foreach(var logo in logok)
+                        {
+                            if(logo.CsapatNev==item.VendegCsapatNev)
+                            {
+                                logoActVendeg = logo.LogoCsapat;
+                                break;
+                            }
+                        }
+                        <img src="@logoActVendeg" />
+                    }
+                    </div>
+                    <h2 class="team-name">@item.VendegCsapatNev</h2>
+                </div>
+            </div>
+        </div>
+}
+

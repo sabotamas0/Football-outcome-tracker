@@ -1,0 +1,457 @@
+﻿@using LabdarugoEredmenyApp.ViewModels
+@using System.Text;
+
+@{
+    var logok = ViewBag.Logok;
+    var merkozes = ViewBag.Merkozes;
+    var hazaiMerkozesek = ViewBag.HazaiMerkozesek;
+    var vendegMerkozesek = ViewBag.VendegMerkozesek;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/css/createNewMatch.css" />
+    <link rel="stylesheet" href="~/css/bajnoksagok.css" />
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="~/js/Validation.js"></script>
+
+</head>
+<body>
+
+    <div class="container">
+        <div class="sidebar">
+
+            <a class="logo-expand" href="@Url.Action("Index", "Bajnoksagok")"><span>&#8656;</span>Föoldal</a>
+
+        </div>
+
+        <div class="wrapper">
+            <div class="header">
+            </div>
+            <div class="match-header">
+                <div class="match-tournament"></div>
+            </div>
+            <div class="match-content">
+                <div class="column">
+                    <div class="team team--home">
+                        <h2 class="team-name">Hazai Csapat:</h2>
+                        <div class="team-logo">
+                            @{
+                                var logoAct = "";
+                                foreach (var logo in logok)
+                                {
+                                    if (logo.CsapatNev == merkozes.HazaiCsapatNev)
+                                    {
+                                        logoAct = logo.LogoCsapat;
+                                        break;
+                                    }
+                                }
+                                <img src="@logoAct" />
+                            }
+
+                        </div>
+                        <h2 class="team-name">@merkozes.HazaiCsapatNev</h2>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="match-details">
+                        <div class="match-date">
+                            <h2 class="team-name">Időpont:</h2>
+                            @merkozes.Idopont.ToString("g")
+                        </div>
+                        <h2 class="team-name">FélideiEredmény:</h2>
+                        <div class="match-score">
+                            @{
+                                var felideieredmenyFelbontva = merkozes.FelideiEredmeny.Split(":");
+                            }
+                            <span class="match-score-number match-score-number--leading">@felideieredmenyFelbontva[0]</span>
+                            <span class="match-score-divider">:</span>
+                            <span class="match-score-number">@felideieredmenyFelbontva[1]</span>
+                        </div>
+                        <h2 class="team-name">Végerdemény:</h2>
+                        <div class="match-score">
+                            @{
+                                var veredmenyFelbontva = merkozes.Vegeredmeny.Split(":");
+                            }
+                            <span class="match-score-number match-score-number--leading">@veredmenyFelbontva[0]</span>
+                            <span class="match-score-divider">:</span>
+                            <span class="match-score-number">@veredmenyFelbontva[1]</span>
+                        </div>
+                        <div class="match-date">
+                            <h2 class="team-name">Jegyzőkönyv:</h2>
+                            <div class="matchDateCustoom">
+                                @merkozes.JegyzoKonyv.ToString()
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+                <div class="column">
+                    <div class="team team--away">
+                        <h2 class="team-name">Vendég Csapat:</h2>
+                        <div class="team-logo">
+                            @{
+                                var logoActVendeg = "";
+                                foreach (var logo in logok)
+                                {
+                                    if (logo.CsapatNev == merkozes.VendegCsapatNev)
+                                    {
+                                        logoActVendeg = logo.LogoCsapat;
+                                        break;
+                                    }
+                                }
+                                <img src="@logoActVendeg" />
+                            }
+                        </div>
+                        <h2 class="team-name">@merkozes.VendegCsapatNev</h2>
+                    </div>
+                </div>
+            </div>
+            <h2 class="team-name">Hazai legutobbi három mérközés erdeményei:</h2>
+            @foreach (var item in hazaiMerkozesek)
+            {
+                if (item.Item1)
+                {
+                    <div class="match-header">
+                        <div class="match-tournament"></div>
+                    </div>
+                    <div class="match-content">
+                        <div class="column">
+                            <div class="team team--home">
+                                <div class="team-logo">
+                                    @{
+                                        var logoActu = "";
+                                        foreach (var logo in logok)
+                                        {
+                                            if (logo.CsapatNev == item.Item2.VendegCsapatNev)
+                                            {
+                                                logoActu = logo.LogoCsapat;
+                                                break;
+                                            }
+                                        }
+                                        <img src="@logoActu" />
+                                    }
+
+                                </div>
+                                <h2 class="team-name">@item.Item2.VendegCsapatNev</h2>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="match-details">
+                                <div class="match-date">
+                                    <h2 class="team-name">Időpont:</h2>
+                                    @item.Item2.Idopont.ToShortDateString()
+                                </div>
+                                <div class="match-date">
+                                    @{
+                                        var eredmenyFelbontva = item.Item2.Vegeredmeny.Split(":");
+                                        var hazaiGol = int.Parse(eredmenyFelbontva[0]);
+                                        var vendegGol = int.Parse(eredmenyFelbontva[1]);
+
+                                    }
+                                    @if (@hazaiGol < @vendegGol)
+                                    {
+                                        <h2 class="team-name">Nyertes</h2>
+                                    }
+                                    else if (@hazaiGol == @vendegGol)
+                                    {
+                                        <h2 class="team-name">Döntetlen</h2>
+                                    }
+                                    else
+                                    {
+                                        <h2 class="team-name">Vesztes</h2>
+                                    }
+                                </div>
+                                <div class="match-score">
+
+                                    <span class="match-score-number match-score-number--leading">@eredmenyFelbontva[1]</span>
+                                    <span class="match-score-divider">:</span>
+                                    <span class="match-score-number">@eredmenyFelbontva[0]</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="team team--away">
+                                <div class="team-logo">
+                                    @{
+                                        var ActVendeg = "";
+                                        foreach (var logo in logok)
+                                        {
+                                            if (logo.CsapatNev == item.Item2.HazaiCsapatNev)
+                                            {
+                                                ActVendeg = logo.LogoCsapat;
+                                                break;
+                                            }
+                                        }
+                                        <img src="@ActVendeg" />
+                                    }
+                                </div>
+                                <h2 class="team-name">@item.Item2.HazaiCsapatNev</h2>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="match-header">
+                        <div class="match-tournament"></div>
+                    </div>
+                    <div class="match-content">
+                        <div class="column">
+                            <div class="team team--home">
+                                <div class="team-logo">
+                                    @{
+                                        var logoActu = "";
+                                        foreach (var logo in logok)
+                                        {
+                                            if (logo.CsapatNev == item.Item2.HazaiCsapatNev)
+                                            {
+                                                logoActu = logo.LogoCsapat;
+                                                break;
+                                            }
+                                        }
+                                        <img src="@logoActu" />
+                                    }
+
+                                </div>
+                                <h2 class="team-name">@item.Item2.HazaiCsapatNev</h2>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="match-details">
+                                <div class="match-date">
+                                    <h2 class="team-name">Időpont:</h2>
+                                    @item.Item2.Idopont.ToShortDateString()
+                                </div>
+                                <div class="match-date">
+                                    @{
+                                        var eredmenyFelbontva = item.Item2.Vegeredmeny.Split(":");
+                                        var hazaiGol = int.Parse(eredmenyFelbontva[0]);
+                                        var vendegGol = int.Parse(eredmenyFelbontva[1]);
+
+                                    }
+                                    @if (@hazaiGol > @vendegGol)
+                                    {
+                                        <h2 class="team-name">Nyertes</h2>
+                                    }
+                                    else if (@hazaiGol == @vendegGol)
+                                    {
+                                        <h2 class="team-name">Döntetlen</h2>
+                                    }
+                                    else
+                                    {
+                                        <h2 class="team-name">Vesztes</h2>
+                                    }
+                                </div>
+                                <div class="match-score">
+
+                                    <span class="match-score-number match-score-number--leading">@eredmenyFelbontva[0]</span>
+                                    <span class="match-score-divider">:</span>
+                                    <span class="match-score-number">@eredmenyFelbontva[1]</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="team team--away">
+                                <div class="team-logo">
+                                    @{
+                                        var ActVendeg = "";
+                                        foreach (var logo in logok)
+                                        {
+                                            if (logo.CsapatNev == item.Item2.VendegCsapatNev)
+                                            {
+                                                ActVendeg = logo.LogoCsapat;
+                                                break;
+                                            }
+                                        }
+                                        <img src="@ActVendeg" />
+                                    }
+                                </div>
+                                <h2 class="team-name">@item.Item2.VendegCsapatNev</h2>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            <h2 class="team-name">Vendeg legutobbi három mérközés erdeményei:</h2>
+            @foreach (var item in vendegMerkozesek)
+            {
+                if (item.Item1)
+                {
+                    <div class="match-header">
+                        <div class="match-tournament"></div>
+                    </div>
+                    <div class="match-content">
+                        <div class="column">
+                            <div class="team team--home">
+                                <div class="team-logo">
+                                    @{
+                                        var logoActu = "";
+                                        foreach (var logo in logok)
+                                        {
+                                            if (logo.CsapatNev == item.Item2.VendegCsapatNev)
+                                            {
+                                                logoActu = logo.LogoCsapat;
+                                                break;
+                                            }
+                                        }
+                                        <img src="@logoActu" />
+                                    }
+
+                                </div>
+                                <h2 class="team-name">@item.Item2.VendegCsapatNev</h2>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="match-details">
+                                <div class="match-date">
+                                    <h2 class="team-name">Időpont:</h2>
+                                    @item.Item2.Idopont.ToShortDateString()
+                                </div>
+                                <div class="match-date">
+                                    @{
+                                        var eredmenyFelbontva = item.Item2.Vegeredmeny.Split(":");
+                                        var hazaiGol = int.Parse(eredmenyFelbontva[0]);
+                                        var vendegGol = int.Parse(eredmenyFelbontva[1]);
+
+                                    }
+                                    @if (@hazaiGol < @vendegGol)
+                                    {
+                                        <h2 class="team-name">Nyertes</h2>
+                                    }
+                                    else if (@hazaiGol == @vendegGol)
+                                    {
+                                        <h2 class="team-name">Döntetlen</h2>
+                                    }
+                                    else
+                                    {
+                                        <h2 class="team-name">Vesztes</h2>
+                                    }
+                                </div>
+                                <div class="match-score">
+
+                                    <span class="match-score-number match-score-number--leading">@eredmenyFelbontva[1]</span>
+                                    <span class="match-score-divider">:</span>
+                                    <span class="match-score-number">@eredmenyFelbontva[0]</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="team team--away">
+                                <div class="team-logo">
+                                    @{
+                                        var ActVendeg = "";
+                                        foreach (var logo in logok)
+                                        {
+                                            if (logo.CsapatNev == item.Item2.HazaiCsapatNev)
+                                            {
+                                                ActVendeg = logo.LogoCsapat;
+                                                break;
+                                            }
+                                        }
+                                        <img src="@ActVendeg" />
+                                    }
+                                </div>
+                                <h2 class="team-name">@item.Item2.HazaiCsapatNev</h2>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="match-header">
+                        <div class="match-tournament"></div>
+                    </div>
+                    <div class="match-content">
+                        <div class="column">
+                            <div class="team team--home">
+                                <div class="team-logo">
+                                    @{
+                                        var logoActu = "";
+                                        foreach (var logo in logok)
+                                        {
+                                            if (logo.CsapatNev == item.Item2.HazaiCsapatNev)
+                                            {
+                                                logoActu = logo.LogoCsapat;
+                                                break;
+                                            }
+                                        }
+                                        <img src="@logoActu" />
+                                    }
+
+                                </div>
+                                <h2 class="team-name">@item.Item2.HazaiCsapatNev</h2>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="match-details">
+                                <div class="match-date">
+                                    <h2 class="team-name">Időpont:</h2>
+                                    @item.Item2.Idopont.ToShortDateString()
+                                </div>
+                                <div class="match-date">
+                                    @{
+                                        var eredmenyFelbontva = item.Item2.Vegeredmeny.Split(":");
+                                        var hazaiGol = int.Parse(eredmenyFelbontva[0]);
+                                        var vendegGol = int.Parse(eredmenyFelbontva[1]);
+
+                                    }
+                                    @if (@hazaiGol > @vendegGol)
+                                    {
+                                        <h2 class="team-name">Nyertes</h2>
+                                    }
+                                    else if (@hazaiGol == @vendegGol)
+                                    {
+                                        <h2 class="team-name">Döntetlen</h2>
+                                    }
+                                    else
+                                    {
+                                        <h2 class="team-name">Vesztes</h2>
+                                    }
+                                </div>
+                                <div class="match-score">
+
+                                    <span class="match-score-number match-score-number--leading">@eredmenyFelbontva[0]</span>
+                                    <span class="match-score-divider">:</span>
+                                    <span class="match-score-number">@eredmenyFelbontva[1]</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="team team--away">
+                                <div class="team-logo">
+                                    @{
+                                        var ActVendeg = "";
+                                        foreach (var logo in logok)
+                                        {
+                                            if (logo.CsapatNev == item.Item2.VendegCsapatNev)
+                                            {
+                                                ActVendeg = logo.LogoCsapat;
+                                                break;
+                                            }
+                                        }
+                                        <img src="@ActVendeg" />
+                                    }
+                                </div>
+                                <h2 class="team-name">@item.Item2.VendegCsapatNev</h2>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            }
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>

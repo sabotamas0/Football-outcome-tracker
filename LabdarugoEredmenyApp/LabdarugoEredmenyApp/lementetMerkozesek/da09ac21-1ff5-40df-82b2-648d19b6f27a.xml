@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-16"?>
+<Merkozes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <MerkozesId>da09ac21-1ff5-40df-82b2-648d19b6f27a</MerkozesId>
+  <Idopont>2022-11-28T13:08:10</Idopont>
+  <Vegeredmeny>5:5</Vegeredmeny>
+  <FelideiEredmeny>2:5</FelideiEredmeny>
+  <JegyzoKonyv>c </JegyzoKonyv>
+  <HazaiCsapatNev>Chelsea</HazaiCsapatNev>
+  <VendegCsapatNev>Liverpool</VendegCsapatNev>
+  <HazaiCsapatId>313317c9-6833-4cad-b8fe-796879447783</HazaiCsapatId>
+  <VendegCsapatId>276f22a0-ae36-4b12-80d7-dafbc0b266af</VendegCsapatId>
+  <BajnoksagNev>Premier League</BajnoksagNev>
+  <BajnoksagId>3aab6379-74c5-4b28-8c5b-bc93ece03128</BajnoksagId>
+</Merkozes>

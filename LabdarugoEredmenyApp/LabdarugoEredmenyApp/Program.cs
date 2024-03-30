@@ -1,9 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using LabdarugoEredmenyApp.Data;
+using Microsoft.Extensions.Options;
+using System.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<LabdarugoEredmenyekContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("LabdarugoEredmenyekContext") ?? throw new InvalidOperationException("Connection string 'LabdarugoEredmenyekContext' not found.")));
+
+builder.Services.AddDbContext<LabdarugoEredmenyekContext>(options => options.UseMySql("server=;database=;user=;password=;GuidFormat=Binary16", ServerVersion.AutoDetect("server=;database=;user=;password=;GuidFormat=Binary16")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
